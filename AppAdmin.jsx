@@ -1,11 +1,9 @@
-
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import PrivateAdminRoute from "./components/PrivateAdminRoute";
+
+// Login
 import AdminLogin from './pages/Admin/AdminLogin';
-import AdminProtectedRoute from './routes/AdminProtectedRoute';
-
-
 
 // Dashboard
 import AdminDashboard from "./pages/Admin/Dashboard/AdminDashboard";
@@ -64,73 +62,68 @@ import SystemLogs from "./pages/Admin/System&Support/SystemLogs";
 
 function AppAdmin() {
   return (
-    <Router>
-      <Routes>
+    <Routes>
+      {/* Login (unprotected) */}
+      <Route path="login" element={<AdminLogin />} />
 
-        <Route path="/Admin/Login" element={<AdminLogin />} />
+      {/* Dashboard */}
+      <Route path="dashboard" element={<PrivateAdminRoute><AdminDashboard /></PrivateAdminRoute>} />
 
-        {/* Dashboard */}
-        <Route path="/Admin/Dashboard" element={<PrivateAdminRoute><AdminDashboard /></PrivateAdminRoute>} />
+      {/* Vendor Management */}
+      <Route path="vendors" element={<PrivateAdminRoute><VendorList /></PrivateAdminRoute>} />
+      <Route path="vendordetails/:id" element={<PrivateAdminRoute><VendorDetails /></PrivateAdminRoute>} />
 
-        {/* Vendor Management */}
-        <Route path="/Admin/Vendors" element={<PrivateAdminRoute><VendorList /></PrivateAdminRoute>} />
-        <Route path="/Admin/VendorDetails/:id" element={<PrivateAdminRoute><VendorDetails /></PrivateAdminRoute>} />
+      {/* Customer Management */}
+      <Route path="customers" element={<PrivateAdminRoute><CustomerList /></PrivateAdminRoute>} />
+      <Route path="customerdetails/:id" element={<PrivateAdminRoute><CustomerDetails /></PrivateAdminRoute>} />
 
-        {/* Customer Management */}
-        <Route path="/Admin/Customers" element={<PrivateAdminRoute><CustomerList /></PrivateAdminRoute>} />
-        <Route path="/Admin/CustomerDetails/:id" element={<PrivateAdminRoute><CustomerDetails /></PrivateAdminRoute>} />
+      {/* Product Management */}
+      <Route path="products" element={<PrivateAdminRoute><ProductList /></PrivateAdminRoute>} />
+      <Route path="categories" element={<PrivateAdminRoute><CategoryList /></PrivateAdminRoute>} />
+      <Route path="attributes" element={<PrivateAdminRoute><AttributeList /></PrivateAdminRoute>} />
+      <Route path="productapprovals" element={<PrivateAdminRoute><ProductApprovalQueue /></PrivateAdminRoute>} />
+      <Route path="productreviews" element={<PrivateAdminRoute><ProductReviewList /></PrivateAdminRoute>} />
 
-        {/* Product Management */}
-        <Route path="/Admin/Products" element={<PrivateAdminRoute><ProductList /></PrivateAdminRoute>} />
-        <Route path="/Admin/Categories" element={<PrivateAdminRoute><CategoryList /></PrivateAdminRoute>} />
-        <Route path="/Admin/Attributes" element={<PrivateAdminRoute><AttributeList /></PrivateAdminRoute>} />
-        <Route path="/Admin/ProductApprovals" element={<PrivateAdminRoute><ProductApprovalQueue /></PrivateAdminRoute>} />
-        <Route path="/Admin/ProductReviews" element={<PrivateAdminRoute><ProductReviewList /></PrivateAdminRoute>} />
+      {/* Order Management */}
+      <Route path="orders" element={<PrivateAdminRoute><OrderList /></PrivateAdminRoute>} />
+      <Route path="orderdetails/:id" element={<PrivateAdminRoute><OrderDetails /></PrivateAdminRoute>} />
 
-        {/* Order Management */}
-        <Route path="/Admin/Orders" element={<PrivateAdminRoute><OrderList /></PrivateAdminRoute>} />
-        <Route path="/Admin/OrderDetails/:id" element={<PrivateAdminRoute><OrderDetails /></PrivateAdminRoute>} />
+      {/* Finance & Payouts */}
+      <Route path="finance" element={<PrivateAdminRoute><PlatformEarnings /></PrivateAdminRoute>} />
+      <Route path="commissions" element={<PrivateAdminRoute><CommissionReports /></PrivateAdminRoute>} />
+      <Route path="payouts" element={<PrivateAdminRoute><VendorPayouts /></PrivateAdminRoute>} />
+      <Route path="transactions" element={<PrivateAdminRoute><TransactionLogs /></PrivateAdminRoute>} />
 
-        {/* Finance & Payouts */}
-        <Route path="/Admin/Finance" element={<PrivateAdminRoute><PlatformEarnings /></PrivateAdminRoute>} />
-        <Route path="/Admin/Commissions" element={<PrivateAdminRoute><CommissionReports /></PrivateAdminRoute>} />
-        <Route path="/Admin/Payouts" element={<PrivateAdminRoute><VendorPayouts /></PrivateAdminRoute>} />
-        <Route path="/Admin/Transactions" element={<PrivateAdminRoute><TransactionLogs /></PrivateAdminRoute>} />
+      {/* Platform Settings */}
+      <Route path="settings/general" element={<PrivateAdminRoute><GeneralSettings /></PrivateAdminRoute>} />
+      <Route path="settings/payments" element={<PrivateAdminRoute><PaymentGateways /></PrivateAdminRoute>} />
+      <Route path="settings/shipping" element={<PrivateAdminRoute><ShippingMethods /></PrivateAdminRoute>} />
+      <Route path="settings/taxes" element={<PrivateAdminRoute><TaxesSettings /></PrivateAdminRoute>} />
+      <Route path="settings/emails" element={<PrivateAdminRoute><EmailTemplates /></PrivateAdminRoute>} />
+      <Route path="settings/currencies" element={<PrivateAdminRoute><Currencies /></PrivateAdminRoute>} />
+      <Route path="settings/languages" element={<PrivateAdminRoute><Languages /></PrivateAdminRoute>} />
 
-        {/* Platform Settings */}
-        <Route path="/Admin/Settings/General" element={<PrivateAdminRoute><GeneralSettings /></PrivateAdminRoute>} />
-        <Route path="/Admin/Settings/Payments" element={<PrivateAdminRoute><PaymentGateways /></PrivateAdminRoute>} />
-        <Route path="/Admin/Settings/Shipping" element={<PrivateAdminRoute><ShippingMethods /></PrivateAdminRoute>} />
-        <Route path="/Admin/Settings/Taxes" element={<PrivateAdminRoute><TaxesSettings /></PrivateAdminRoute>} />
-        <Route path="/Admin/Settings/Emails" element={<PrivateAdminRoute><EmailTemplates /></PrivateAdminRoute>} />
-        <Route path="/Admin/Settings/Currencies" element={<PrivateAdminRoute><Currencies /></PrivateAdminRoute>} />
-        <Route path="/Admin/Settings/Languages" element={<PrivateAdminRoute><Languages /></PrivateAdminRoute>} />
+      {/* Marketing & Promotions */}
+      <Route path="marketing/coupons" element={<PrivateAdminRoute><PlatformCoupons /></PrivateAdminRoute>} />
+      <Route path="marketing/newsletter" element={<PrivateAdminRoute><NewsletterManagement /></PrivateAdminRoute>} />
 
-        {/* Marketing */}
-        <Route path="/Admin/Marketing/Coupons" element={<PrivateAdminRoute><PlatformCoupons /></PrivateAdminRoute>} />
-        <Route path="/Admin/Marketing/Newsletter" element={<PrivateAdminRoute><NewsletterManagement /></PrivateAdminRoute>} />
+      {/* Content Management */}
+      <Route path="cms/pages" element={<PrivateAdminRoute><CMSPages /></PrivateAdminRoute>} />
+      <Route path="cms/blog" element={<PrivateAdminRoute><BlogManagement /></PrivateAdminRoute>} />
 
-        {/* CMS */}
-        <Route path="/Admin/CMS/Pages" element={<PrivateAdminRoute><CMSPages /></PrivateAdminRoute>} />
-        <Route path="/Admin/CMS/Blog" element={<PrivateAdminRoute><BlogManagement /></PrivateAdminRoute>} />
+      {/* Reports & Analytics */}
+      <Route path="reports/sales" element={<PrivateAdminRoute><SalesReports /></PrivateAdminRoute>} />
+      <Route path="reports/traffic" element={<PrivateAdminRoute><TrafficAnalytics /></PrivateAdminRoute>} />
+      <Route path="reports/vendorperformance" element={<PrivateAdminRoute><VendorPerformanceReports /></PrivateAdminRoute>} />
 
-        {/* Reports */}
-        <Route path="/Admin/Reports/Sales" element={<PrivateAdminRoute><SalesReports /></PrivateAdminRoute>} />
-        <Route path="/Admin/Reports/Traffic" element={<PrivateAdminRoute><TrafficAnalytics /></PrivateAdminRoute>} />
-        <Route path="/Admin/Reports/VendorPerformance" element={<PrivateAdminRoute><VendorPerformanceReports /></PrivateAdminRoute>} />
+      {/* System & Support */}
+      <Route path="system/users" element={<PrivateAdminRoute><AdminUserRoles /></PrivateAdminRoute>} />
+      <Route path="system/tickets" element={<PrivateAdminRoute><SupportTickets /></PrivateAdminRoute>} />
+      <Route path="system/logs" element={<PrivateAdminRoute><SystemLogs /></PrivateAdminRoute>} />
 
-        {/* System & Support */}
-        <Route path="/Admin/System/Users" element={<PrivateAdminRoute><AdminUserRoles /></PrivateAdminRoute>} />
-        <Route path="/Admin/System/Tickets" element={<PrivateAdminRoute><SupportTickets /></PrivateAdminRoute>} />
-        <Route path="/Admin/System/Logs" element={<PrivateAdminRoute><SystemLogs /></PrivateAdminRoute>} />
-
-        <Route path="/Admin/Dashboard" element={<AdminProtectedRoute> <AdminDashboard /> </AdminProtectedRoute>
-  
-  }
-/>
-
-      </Routes>
-    </Router>
+      {/* Fallback: Redirect any unknown admin route to dashboard */}
+      <Route path="*" element={<Navigate to="dashboard" />} />
+    </Routes>
   );
 }
 
